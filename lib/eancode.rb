@@ -6,7 +6,7 @@ module CodeEan
 	class ExecBrowser
 		def initialize
 			@options = parse_opts
-			abort("Nom de domaine non spécifié") unless @options[:domain]
+			abort("Domain name with map page not specify") unless @options[:domain]
 			#@options[:path] = '/' unless @options[:path]
 			@url_web = "http://"
 			@domain = ""
@@ -35,8 +35,8 @@ module CodeEan
 
 			opts.banner = "Veuillez entrer un argument"
 
-			opts.on('-d', '--domain domain', 'Adresse de la page que vous souhaiter analyser') { |d| options[:domain] = d }
-			opts.on('-V', '--version', 'Voir la version') { self.version; exit }
+			opts.on('-d', '--domain domain', 'Address with map page') { |d| options[:domain] = d }
+			opts.on('-V', '--version', 'Look the version') { self.version; exit }
 			opts.parse(ARGV)
 			options
 		end
