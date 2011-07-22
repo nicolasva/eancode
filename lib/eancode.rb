@@ -16,11 +16,7 @@ module CodeEan
 		        url_web = @url_web + @options[:domain]
 		        @domain = @options[:domain].scan(/^([\w\d\.\-]+).*$/)[0][0]	
 			
-			url = URI.parse(url_web)
-			res = Net::HTTP.start(url.host, url.port) { |http|
-				http.get("/")
-			}
-			result_line = res.body
+			result_line = routing_web(url_web)
 			
 			result_line.each_line{ |line|
 				unless line.strip.scan(/<\s*a\s+[^>]*href\s*=\s*[\"‘]?([^\"' >]+)[\"‘ >]/).empty?
@@ -62,12 +58,7 @@ module CodeEan
 				url_web = @url_web + @options[:domain] + "/" + url
 		      end
 	
- 		      url = URI.parse(url_web)	
-		      res = Net::HTTP.start(url.host, url.port) { |http|
-		      		http.get("/")
-		      }	
-
-		      result_line = res.body
+		      result_line = routing_web(url_web)
 
 		      result_line.each_line{ |line|
 			        line_src_img = line.strip.scan(/<\s*img\s+[^>]*src\s*=\s*[\"‘]?([^\"' >]+)[\"‘ >]/)
@@ -80,6 +71,14 @@ module CodeEan
 		      }
 		end
 
+		private
+		def routing_web(url_web)	
+ 		      url = URI.parse(url_web)	
+		      res = Net::HTTP.start(url.host, url.port) { |http|
+		      		http.get("/")
+		      }
+	      	      res.body	      
+		end
 
 	end
 end
