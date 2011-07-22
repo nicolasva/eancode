@@ -1,0 +1,8 @@
+#!/usr/bin/ruby
+
+require 'net/http'
+require 'optparse'
+
+require File.dirname(__FILE__) + '/../lib/eancode'
+
+CodeEan::ExecBrowser.new.run
