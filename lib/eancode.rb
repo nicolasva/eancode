@@ -33,7 +33,7 @@ module CodeEan
 			options = Hash.new
 			opts = OptionParser.new
 
-			opts.banner = "Veuillez entrer un argument"
+			opts.banner = "Can you enter with argument !!!!"
 
 			opts.on('-d', '--domain domain', 'Address with map page') { |d| options[:domain] = d }
 			opts.on('-V', '--version', 'Look the version') { self.version; exit }
