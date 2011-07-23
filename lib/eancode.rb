@@ -11,6 +11,7 @@ module CodeEan
 			@url_web = "http://"
 			@domain = ""
 			@tab_url_pass = Array.new
+			@tab_img_pass = Array.new
 		end
 
 		def run
@@ -50,20 +51,8 @@ module CodeEan
 		end
 
 		def link_href?(url)
-		      url_domain = url.scan(/^(www|http)(.{1,})$/)
-
-		      unless url_domain.empty?
-			if url_domain[0][0].to_s == "http"
-				url_web = url
-			else
-				url_web = @url_web + @options[:domain]
-			end
-		      else
-				url_web = @url_web + @options[:domain] + "/" + url
-		      end
-
-		    unless @tab_url_pass.include?(url_web)
-		      result_line = routing_web(url_web)
+		    unless @tab_url_pass.include?(http_www_domain?(url))
+		      result_line = routing_web(http_www_domain?(url))
 
 		      result_line.each_line{ |line|	
 				unless line.strip.scan(/<\s*a\s+[^>]*href\s*=\s*[\"‘]?([^\"' >]+)[\"‘ >]/).empty?
@@ -74,23 +63,13 @@ module CodeEan
 					}
 				end
 		      }
-		      @tab_url_pass.push(url_web)
+		      @tab_url_pass.push(http_www_domain?(url))
 		    end
 		end
 
 		def img_eancode?(url)
-		      url_domain = url.scan(/^(www|http)(.{1,})$/)
-		      unless url_domain.empty?
-			if url_domain[0][0].to_s == "http"
-				url_web = url
-			else
-				url_web = @url_web + @options[:domain]
-			end
-		      else
-				url_web = @url_web + @options[:domain] + "/" + url
-		      end
-	
-		      result_line = routing_web(url_web)
+		    unless @tab_img_pass.include?(http_www_domain?(url))
+		      result_line = routing_web(http_www_domain?(url))
 
 		      result_line.each_line{ |line|
 			        line_src_img = line.strip.scan(/<\s*img\s+[^>]*src\s*=\s*[\"‘]?([^\"' >]+)[\"‘ >]/)
@@ -103,6 +82,8 @@ module CodeEan
 					}
 				end
 		      }
+		      @tab_img_pass.push(http_www_domain?(url))
+		    end
 		end
 
 		private
@@ -112,6 +93,21 @@ module CodeEan
 		      		http.get("/")
 		      }
 	      	      res.body	      
+		end
+
+		def http_www_domain?(url)
+			url_domain = url.scan(/^(www|http)(.{1,})$/)
+			unless url_domain.empty?
+				if url_domain[0][0].to_s == "http"
+					url_web = url
+				else
+					url_web = @url_web + @options[:domain]
+				end
+			else
+				url_web = @url_web + @options[:domain] + "/" + url
+			end
+
+			url_web
 		end
 
 	end
