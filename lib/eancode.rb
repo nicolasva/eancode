@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-
+ff
 module CodeEan
 	VERSION = '0.0.1'
 
