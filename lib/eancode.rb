@@ -80,13 +80,9 @@ module CodeEan
 
 		private
 		def routing_web(url_web)
-		    unless url_web.scan(/^http:\/\/[\w\d\.\-]+(\/.{1,}).*$/)[0].nil? || @domain.to_s != url_web.scan(/^http:\/\/([\w\d\.\-]+)\/.{1,}.*$/)[0][0].to_s
 		      path = url_web.scan(/^http:\/\/[\w\d\.\-]+(\/.{1,}).*$/)[0][0]
 		      res = res_web(path.empty? ? "/" : path) 
-	      	      res.nil? ? false : res.body()	
-		    else
-			    false
-		    end
+	      	      res.body()	
 		end
 
 		def http_www_domain?(url)
