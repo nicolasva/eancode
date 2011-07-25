@@ -108,9 +108,9 @@ module CodeEan
 		    unless url_web.scan(/^http:\/\/[\w\d\.\-]+(\/.{1,}).*$/)[0].nil? || @domain.to_s != url_web.scan(/^http:\/\/([\w\d\.\-]+)\/.{1,}.*$/)[0][0].to_s 
 		      path = url_web.scan(/^http:\/\/[\w\d\.\-]+(\/.{1,}).*$/)[0][0]
 		      res = res_web(path.empty? ? "/" : path) 
-	      	      res.nil? ? false : true
+	      	      return res.nil? ? false : true
 		    else
-			    false
+		      return false
 		    end
 		end
 
