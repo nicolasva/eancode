@@ -82,7 +82,7 @@ module CodeEan
 		def routing_web(url_web)
 		    unless url_web.scan(/^http:\/\/[\w\d\.\-]+(\/.{1,}).*$/)[0].nil? || @domain.to_s != url_web.scan(/^http:\/\/([\w\d\.\-]+)\/.{1,}.*$/)[0][0].to_s
 		      path = url_web.scan(/^http:\/\/[\w\d\.\-]+(\/.{1,}).*$/)[0][0]
-		      res = Net::HTTP.get_response(@domain, path.empty? ? "/" : path)
+		      res = res_web(path.empty? ? "/" : path) 
 	      	      res.nil? ? false : res.body()	
 		    else
 			    false
@@ -107,12 +107,17 @@ module CodeEan
 		def authorize_routing_web?(url_web)		
 		    unless url_web.scan(/^http:\/\/[\w\d\.\-]+(\/.{1,}).*$/)[0].nil? || @domain.to_s != url_web.scan(/^http:\/\/([\w\d\.\-]+)\/.{1,}.*$/)[0][0].to_s 
 		      path = url_web.scan(/^http:\/\/[\w\d\.\-]+(\/.{1,}).*$/)[0][0]
-		      res = Net::HTTP.get_response(@domain, path.empty? ? "/" : path)
+		      res = res_web(path.empty? ? "/" : path) 
 	      	      res.nil? ? false : true
 		    else
 			    false
 		    end
 		end
+
+		def res_web(path)	
+		      res = Net::HTTP.get_response(@domain, path.empty? ? "/" : path)
+		      res
+	 	end
 
 	end
 end
