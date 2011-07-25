@@ -42,7 +42,7 @@ module CodeEan
 		def link_href?(url)
 		   #unless @tab_url_pass.include?(http_www_domain?(url))
 		      #@tab_url_pass.push(http_www_domain?(url).to_s.strip)
-	             if routing_web(http_www_domain?(url)) != false
+	             if authorize_routing_web?(http_www_domain?(url))
 		      result_line = routing_web(http_www_domain?(url))
 
 		      tab_url = result_line.strip.scan(/<\s*a\s+[^>]*href\s*=\s*[\"‘]?([^\"' >]+)[\"‘ >]/)
@@ -60,7 +60,7 @@ module CodeEan
 		end
 
 		def img_eancode?(url)
-		   if routing_web(http_www_domain?(url)) != false
+		   if authorize_routing_web?(http_www_domain?(url))
 		      result_line = routing_web(http_www_domain?(url))
 
 
@@ -102,6 +102,16 @@ module CodeEan
 			end
 
 			url_web
+		end
+
+		def authorize_routing_web?(url_web)		
+		    unless url_web.scan(/^http:\/\/[\w\d\.\-]+(\/.{1,}).*$/)[0].nil? || @domain.to_s != url_web.scan(/^http:\/\/([\w\d\.\-]+)\/.{1,}.*$/)[0][0].to_s 
+		      path = url_web.scan(/^http:\/\/[\w\d\.\-]+(\/.{1,}).*$/)[0][0]
+		      res = Net::HTTP.get_response(@domain, path.empty? ? "/" : path)
+	      	      res.nil? ? false : true
+		    else
+			    false
+		    end
 		end
 
 	end
