@@ -19,7 +19,7 @@ module CodeEan
 		        #@domain = @options[:domain].scan(/^([\w\d\.\-]+).*$/)[0][0]	
 			uri = URI.parse(url_web)
 			@domain = uri.host
-			link_href?(url_web)
+			link_href(url_web)
 		end
 
 		def parse_opts
@@ -39,7 +39,7 @@ module CodeEan
 			puts "EANcode #{VERSION}"
 		end
 
-		def link_href?(url)
+		def link_href(url)
 		   #unless @tab_url_pass.include?(http_www_domain?(url))
 		      #@tab_url_pass.push(http_www_domain?(url).to_s.strip)
 	             if authorize_routing_web?(http_www_domain?(url))
@@ -49,8 +49,8 @@ module CodeEan
 				unless tab_url.empty?
 					7.upto(tab_url.length-1){ |i|
 		    			   #unless @tab_url_pass.include?(tab_url[i].to_s.strip)
-						img_eancode?(tab_url[i].to_s.strip)
-						#link_href?(tab_url[i].to_s.strip)		
+						img_eancode(tab_url[i].to_s.strip)
+						#link_href(tab_url[i].to_s.strip)		
 					   	#@tab_url_pass.push(tab_url[i].to_s.strip)
 					   #end	
 					}
@@ -59,7 +59,7 @@ module CodeEan
 		  #end
 		end
 
-		def img_eancode?(url)
+		def img_eancode(url)
 		   if authorize_routing_web?(http_www_domain?(url))
 		      result_line = routing_web(http_www_domain?(url))
 
